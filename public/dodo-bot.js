@@ -13,6 +13,7 @@
     return
   }
 
+
   /* ===========================
      STYLES (PREMIUM GLASS UI)
   ============================ */
@@ -352,7 +353,7 @@ const applyPosition = (pos = "bottom-right") => {
   }
 }
 
-  fetch(`http://localhost:5000/api/widget/${botId}`)
+  fetch(`https://dodo-dentalai-chatbot.onrender.com/api/widget/${botId}`)
     .then(r => r.json())
     .then(d => {
       document.documentElement.style.setProperty(
@@ -390,16 +391,24 @@ const applyPosition = (pos = "bottom-right") => {
   /* ===========================
      SEND MESSAGE
   ============================ */
+  const sessionId =
+    localStorage.getItem("dodo_session_id") ||
+    (() => {
+      const id = crypto.randomUUID()
+      localStorage.setItem("dodo_session_id", id)
+      return id
+    })()
+
   const sendMessage = async text => {
     addMessage(text, "dodo-user")
     showTyping()
 
     let data = {}
     try {
-      const res = await fetch("http://localhost:5000/api/chat", {
+      const res = await fetch("https://dodo-dentalai-chatbot.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ botId, message: text })
+        body: JSON.stringify({ botId, message: text, sessionId })
       })
       data = await res.json()
     } catch (e) {}

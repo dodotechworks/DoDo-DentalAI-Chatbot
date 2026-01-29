@@ -280,8 +280,14 @@ app.post("/api/chat", async (req, res) => {
     }
 
     /* ===== Appointment session ===== */
-    const sessionId = `${botId}-${req.ip}`
-    const session = leadSessions[sessionId]
+    const { sessionId } = req.body
+
+    if (!sessionId) {
+      return res.status(400).json({ error: "Missing sessionId" })
+    }
+
+    const key = `${botId}-${sessionId}`
+    const session = leadSessions[key]
     const text = message.trim()
 
     /* ===== ACTIVE APPOINTMENT FLOW ===== */
@@ -358,7 +364,7 @@ app.post("/api/chat", async (req, res) => {
           })
         }
 
-        delete leadSessions[sessionId]
+        delete leadSessions[key]
 
         return res.json({
           reply:
@@ -369,7 +375,7 @@ app.post("/api/chat", async (req, res) => {
 
     /* ===== START APPOINTMENT FLOW ===== */
     if (isAppointmentIntent(text)) {
-      leadSessions[sessionId] = {
+      leadSessions[key] = {
         step: "name",
         data: {}
       }
