@@ -1,3 +1,4 @@
+
 ;(function () {
   /* ===========================
      SAFE SCRIPT DETECTION
@@ -446,5 +447,3 @@ const applyPosition = (pos = "bottom-right") => {
     sendMessage(`${d} at ${t}`)
   }
 })()
-
-// changes
