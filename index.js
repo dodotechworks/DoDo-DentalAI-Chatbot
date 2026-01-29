@@ -8,6 +8,7 @@ import { sendLeadEmail } from "./email.js"
 import { DateTime } from "luxon"
 import crypto from "crypto"
 
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -67,6 +68,7 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
+
 function verifyPaddleSignature(req) {
   const signature = req.headers["paddle-signature"]
   const body = req.body
@@ -86,7 +88,6 @@ function verifyPaddleSignature(req) {
     Buffer.from(signature)
   )
 }
-
 /* =========================
    SYNC CLERK USER
 ========================= */
@@ -278,7 +279,6 @@ app.post("/api/chat", async (req, res) => {
         error: "Usage limit reached"
       })
     }
-
     /* ===== Appointment session ===== */
     const { sessionId } = req.body
 
@@ -288,6 +288,7 @@ app.post("/api/chat", async (req, res) => {
 
     const key = `${botId}-${sessionId}`
     const session = leadSessions[key]
+
     const text = message.trim()
 
     /* ===== ACTIVE APPOINTMENT FLOW ===== */
@@ -363,8 +364,8 @@ app.post("/api/chat", async (req, res) => {
             ...lead
           })
         }
-
         delete leadSessions[key]
+       
 
         return res.json({
           reply:
@@ -375,11 +376,11 @@ app.post("/api/chat", async (req, res) => {
 
     /* ===== START APPOINTMENT FLOW ===== */
     if (isAppointmentIntent(text)) {
+ 
       leadSessions[key] = {
         step: "name",
         data: {}
       }
-
       return res.json({
         reply: "Sure 🙂 May I have your full name?"
       })
