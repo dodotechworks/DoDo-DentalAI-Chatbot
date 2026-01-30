@@ -391,7 +391,14 @@ app.post("/api/chat", async (req, res) => {
     const finalPrompt =
       bot.system_prompt_locked + "\n\n" + bot.system_prompt_custom
 
-    const reply = await askOllama(message, finalPrompt)
+    let reply =
+      "🤖 I'm here to help you with appointments and clinic questions."
+
+    try {
+      reply = await askOllama(message, finalPrompt)
+    } catch (e) {
+      console.error("LLM ERROR (expected on Render):", e.message)
+    }
 
     await supabase
       .from("users")
