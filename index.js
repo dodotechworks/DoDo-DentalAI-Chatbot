@@ -391,13 +391,13 @@ app.post("/api/chat", async (req, res) => {
     const finalPrompt =
       bot.system_prompt_locked + "\n\n" + bot.system_prompt_custom
 
-    let reply =
-      "🤖 I'm here to help you with appointments and clinic questions."
+    let reply
 
     try {
       reply = await askOpenAI(message, finalPrompt)
     } catch (e) {
       console.error("OpenAI error:", e.message)
+      reply = "⚠️ I'm having trouble answering right now. Please try again."
     }
 
     await supabase
@@ -407,7 +407,7 @@ app.post("/api/chat", async (req, res) => {
       })
       .eq("id", user.id)
 
-    res.json({ reply })
+    return res.json({ reply })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: "Server error" })
