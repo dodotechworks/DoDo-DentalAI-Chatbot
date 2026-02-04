@@ -4,14 +4,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-export async function askGPT(message, systemPrompt) {
+export async function askOpenAI(userMessage, systemPrompt) {
   const response = await openai.chat.completions.create({
     model: "gpt-4.1-nano",
     messages: [
       { role: "system", content: systemPrompt },
-      { role: "user", content: message }
+      { role: "user", content: userMessage }
     ],
-    temperature: 0.3
+    temperature: 0.4
   })
 
   return response.choices[0].message.content

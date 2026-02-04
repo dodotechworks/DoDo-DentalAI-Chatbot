@@ -395,7 +395,7 @@ app.post("/api/chat", async (req, res) => {
       "🤖 I'm here to help you with appointments and clinic questions."
 
     try {
-      reply = await askGPT(message, finalPrompt)
+      reply = await askOpenAI(message, finalPrompt)
     } catch (e) {
       console.error("OpenAI error:", e.message)
     }
