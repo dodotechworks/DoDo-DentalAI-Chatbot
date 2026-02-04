@@ -9,6 +9,7 @@ import { sendLeadEmail } from "./email.js"
 import { DateTime } from "luxon"
 import crypto from "crypto"
 
+console.log("OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY)
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
