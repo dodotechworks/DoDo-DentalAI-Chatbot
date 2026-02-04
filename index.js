@@ -2,7 +2,7 @@
 import express from "express"
 import cors from "cors"
 import supabase from "./supabase.js"
-import { askOllama } from "./ollama.js"
+import { askOpenAI } from "./openai.js"
 import path from "path"
 import { fileURLToPath } from "url"
 import { sendLeadEmail } from "./email.js"
@@ -395,9 +395,9 @@ app.post("/api/chat", async (req, res) => {
       "🤖 I'm here to help you with appointments and clinic questions."
 
     try {
-      reply = await askOllama(message, finalPrompt)
+      reply = await askGPT(message, finalPrompt)
     } catch (e) {
-      console.error("LLM ERROR (expected on Render):", e.message)
+      console.error("OpenAI error:", e.message)
     }
 
     await supabase
