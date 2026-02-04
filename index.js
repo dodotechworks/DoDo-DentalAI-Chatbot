@@ -396,7 +396,24 @@ app.post("/api/chat", async (req, res) => {
     try {
       reply = await askOpenAI(message, finalPrompt)
     } catch (e) {
-      console.error("OpenAI error:", e.message)
+      console.log("OPENAI KEY EXISTS:", !!process.env.OPENAI_API_KEY)
+
+      console.error("====== OPENAI ERROR START ======")
+
+      console.error("Message:", e.message)
+      console.error("Code:", e.code)
+      console.error("Status:", e.status)
+
+      if (e.error) {
+        console.error("OpenAI error type:", e.error.type)
+        console.error("OpenAI error code:", e.error.code)
+        console.error("OpenAI error message:", e.error.message)
+      }
+
+      console.error("Full error object:", JSON.stringify(e, null, 2))
+
+      console.error("====== OPENAI ERROR END ======")
+
       reply = "⚠️ I'm having trouble answering right now. Please try again."
     }
 
